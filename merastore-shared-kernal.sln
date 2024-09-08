@@ -7,11 +7,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43EC6B8C-964
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{54E95BA7-0EE9-4C19-BD7D-5D47A7F92380}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Common", "src\MeraStore.Shared.Common\MeraStore.Shared.Common.csproj", "{BB0FDF4F-3638-4BA9-832B-99D306CA621B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeraStore.Shared.Common", "src\MeraStore.Shared.Common\MeraStore.Shared.Common.csproj", "{BB0FDF4F-3638-4BA9-832B-99D306CA621B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Common.Logging", "src\MeraStore.Shared.Common.Logging\MeraStore.Shared.Common.Logging.csproj", "{4E6C308D-A5D5-4CDE-B953-109DBAE3520F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeraStore.Shared.Common.Logging", "src\MeraStore.Shared.Common.Logging\MeraStore.Shared.Common.Logging.csproj", "{4E6C308D-A5D5-4CDE-B953-109DBAE3520F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Common.WebApi", "src\MeraStore.Shared.Common.WebApi\MeraStore.Shared.Common.WebApi.csproj", "{D0E034D7-A87F-496E-BFBC-4E16A0E2DAA5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeraStore.Shared.Common.WebApi", "src\MeraStore.Shared.Common.WebApi\MeraStore.Shared.Common.WebApi.csproj", "{D0E034D7-A87F-496E-BFBC-4E16A0E2DAA5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Common.Logging.Tests", "tests\MeraStore.Shared.Common.Logging.Tests\MeraStore.Shared.Common.Logging.Tests.csproj", "{01E30C8D-BD37-413C-B341-DE6F489566E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{D0E034D7-A87F-496E-BFBC-4E16A0E2DAA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0E034D7-A87F-496E-BFBC-4E16A0E2DAA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0E034D7-A87F-496E-BFBC-4E16A0E2DAA5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{01E30C8D-BD37-413C-B341-DE6F489566E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{01E30C8D-BD37-413C-B341-DE6F489566E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{01E30C8D-BD37-413C-B341-DE6F489566E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{01E30C8D-BD37-413C-B341-DE6F489566E8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{BB0FDF4F-3638-4BA9-832B-99D306CA621B} = {43EC6B8C-9646-4CA6-9783-FA57F18FA015}
 		{4E6C308D-A5D5-4CDE-B953-109DBAE3520F} = {43EC6B8C-9646-4CA6-9783-FA57F18FA015}
 		{D0E034D7-A87F-496E-BFBC-4E16A0E2DAA5} = {43EC6B8C-9646-4CA6-9783-FA57F18FA015}
+		{01E30C8D-BD37-413C-B341-DE6F489566E8} = {54E95BA7-0EE9-4C19-BD7D-5D47A7F92380}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E524CCD4-9BA9-47A3-8FB4-40CF29261CA1}
