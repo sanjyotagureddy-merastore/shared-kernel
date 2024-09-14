@@ -11,7 +11,7 @@ using Serilog.Sinks.Elasticsearch;
 namespace MeraStore.Shared.Common.Logging
 {
   [ExcludeFromCodeCoverage]
-  public static class LoggingExtension
+  public static class ModuleRegistration
   {
     public static IServiceCollection AddElasticsearch(this IServiceCollection services, IConfiguration configuration)
     {

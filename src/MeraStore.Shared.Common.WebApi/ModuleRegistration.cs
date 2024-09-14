@@ -14,7 +14,7 @@ namespace MeraStore.Shared.Common.WebApi;
 
 
 [ExcludeFromCodeCoverage]
-public static class ServiceExtensions
+public static class ModuleRegistration
 {
   public static IServiceCollection AddDefaultServices(this IServiceCollection services, IConfiguration configuration)
   {

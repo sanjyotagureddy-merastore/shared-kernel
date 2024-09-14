@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace MeraStore.Shared.Common.WebApi;
 
 [ExcludeFromCodeCoverage]
-public static class AppExtensions
+public static class AppModuleRegistration
 {
   public static IApplicationBuilder UseCustomExceptionHandler(this IApplicationBuilder app)
   {
