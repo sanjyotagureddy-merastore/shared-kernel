@@ -22,6 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MeraStore.Shared.Common\MeraStore.Shared.Common.csproj" />
+    <ProjectReference Include="..\MeraStore.Shared.Common.Core\MeraStore.Shared.Common.Core.csproj" />
   </ItemGroup>
 </Project>

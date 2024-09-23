@@ -1,4 +1,4 @@
-﻿using MeraStore.Shared.Common.Exceptions;
+﻿using MeraStore.Shared.Common.Core.Exceptions;
 using Polly;
 
 namespace MeraStore.Shared.Common.Http;

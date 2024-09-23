@@ -1,16 +1,17 @@
 ﻿using System.Net;
-using MeraStore.Shared.Common.ErrorsCodes;
-using MeraStore.Shared.Common.Exceptions;
+using MeraStore.Shared.Common.Core;
+using MeraStore.Shared.Common.Core.ErrorsCodes;
 using MeraStore.Shared.Common.Logging.Attributes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
+using MeraStore.Shared.Common.Core.Exceptions;
 
 namespace MeraStore.Shared.Common.WebApi.Middlewares
 {
-  public class ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+    public class ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
   {
     private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
     {

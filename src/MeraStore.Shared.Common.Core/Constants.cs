@@ -1,4 +1,4 @@
-﻿namespace MeraStore.Shared.Common;
+﻿namespace MeraStore.Shared.Common.Core;
 
 public static class Constants
 {
@@ -91,6 +91,9 @@ public static class Constants
 
   public static class SerilogIndex
   {
+
+    public static readonly string ApplicationLog = "app-logs";
+    public static readonly string AspNetCoreLogs = "aspnetcore-logs";
     public static readonly string RequestResponse = "request-response-logs";
   }
 
