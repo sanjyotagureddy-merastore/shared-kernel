@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿using MeraStore.Shared.Common.Core;
+using Microsoft.OpenApi.Models;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
 

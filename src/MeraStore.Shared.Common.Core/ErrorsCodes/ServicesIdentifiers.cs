@@ -1,4 +1,4 @@
-﻿namespace MeraStore.Shared.Common.ErrorsCodes;
+﻿namespace MeraStore.Shared.Common.Core.ErrorsCodes;
 
 public static class ServicesIdentifiers
 {

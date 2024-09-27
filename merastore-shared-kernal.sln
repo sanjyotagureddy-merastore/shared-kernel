@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{43EC6B8C-964
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{54E95BA7-0EE9-4C19-BD7D-5D47A7F92380}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeraStore.Shared.Common", "src\MeraStore.Shared.Common\MeraStore.Shared.Common.csproj", "{BB0FDF4F-3638-4BA9-832B-99D306CA621B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeraStore.Shared.Common.Core", "src\MeraStore.Shared.Common.Core\MeraStore.Shared.Common.Core.csproj", "{BB0FDF4F-3638-4BA9-832B-99D306CA621B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeraStore.Shared.Common.Logging", "src\MeraStore.Shared.Common.Logging\MeraStore.Shared.Common.Logging.csproj", "{4E6C308D-A5D5-4CDE-B953-109DBAE3520F}"
 EndProject

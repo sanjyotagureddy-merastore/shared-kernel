@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using MeraStore.Shared.Common.Core;
 using MeraStore.Shared.Common.Logging.Enrichers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

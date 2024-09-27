@@ -3,15 +3,15 @@ using MeraStore.Shared.Common.Logging.Models;
 using Serilog;
 using Serilog.Context;
 using System.Diagnostics;
-using MeraStore.Shared.Common.Exceptions;
 using MeraStore.Shared.Common.Logging.Enrichers;
 using Nest;
 using Policy = Polly.Policy;
 using Microsoft.Extensions.Configuration;
+using MeraStore.Shared.Common.Core.Exceptions;
 
 namespace MeraStore.Shared.Common.Http
 {
-  public class ApiClient(ILogger logger, IElasticClient elasticClient, MaskingService maskingService, IConfiguration configuration)
+    public class ApiClient(ILogger logger, IElasticClient elasticClient, MaskingService maskingService, IConfiguration configuration)
     : IApiClient
   {
     private readonly ILogger _logger = logger ?? throw new ArgumentNullException(nameof(logger));

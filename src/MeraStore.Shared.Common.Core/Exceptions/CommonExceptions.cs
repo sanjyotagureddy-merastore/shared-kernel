@@ -1,25 +1,34 @@
 ﻿using System.Net;
-using MeraStore.Shared.Common.ErrorsCodes;
+using MeraStore.Shared.Common.Core.ErrorsCodes;
 
-namespace MeraStore.Shared.Common.Exceptions;
+namespace MeraStore.Shared.Common.Core.Exceptions;
 
 public class CommonExceptions
 {
   public class ApiCommunicationException : BaseAppException
   {
-    public ApiCommunicationException(string message) : base(ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.ApiGateway),
+    public ApiCommunicationException(string message) : base(
+      ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.ApiGateway),
       EventCodeProvider.GetEventCode(Constants.EventCodes.ServiceError),
       ErrorCodeProvider.GetErrorCode(Constants.ErrorCodes.BadGatewayError),
       HttpStatusCode.BadGateway, message)
     {
     }
-    public ApiCommunicationException(string message, Exception innerException) : base(ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.ApiGateway),
+
+    public ApiCommunicationException(string message, Exception innerException) : base(
+      ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.ApiGateway),
       EventCodeProvider.GetEventCode(Constants.EventCodes.ServiceError),
       ErrorCodeProvider.GetErrorCode(Constants.ErrorCodes.BadGatewayError),
       HttpStatusCode.BadGateway, message)
     {
     }
   }
+
+  public class InvalidDataFormatException(string message) : BaseAppException(
+    ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.DataValidation),
+    EventCodeProvider.GetEventCode(Constants.EventCodes.InvalidParameter),
+    ErrorCodeProvider.GetErrorCode(Constants.ErrorCodes.InvalidFormatError),
+    HttpStatusCode.BadRequest, message);
 
   public class EventBusCommunicationException(string message) : BaseAppException(
     ServiceProvider.GetServiceCode(Constants.ServiceIdentifiers.EventBus),
