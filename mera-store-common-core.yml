@@ -1,0 +1,76 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+parameters:
+  - name: majorVersion
+    displayName: 'Major Version'
+    type: number
+    default: 1
+  
+  - name: minorVersion
+    displayName: 'Minor Version'
+    type: number
+    default: 0
+  
+  - name: isPreRelease
+    displayName: 'Pre-Release'
+    type: boolean
+    default: false
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+  packageVersion: ''
+
+steps:
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet'
+
+- task: NuGetCommand@2
+  displayName: 'Restore NuGet Packages'
+  inputs:
+    restoreSolution: '$(solution)'
+
+- task: VSBuild@1
+  displayName: 'Build Solution'
+  inputs:
+    solution: '$(solution)'
+    msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSTest@2
+  displayName: 'Run Unit Tests'
+  inputs:
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: PowerShell@2
+  displayName: 'Calculate Version Number'
+  inputs:
+    targetType: 'inline'
+    script: |
+      $buildNumber = $(Build.BuildId)
+      $version = "$(parameters.majorVersion).$(parameters.minorVersion).$buildNumber"
+      if ($(parameters.isPreRelease) -eq "true") {
+        $version += "-beta"
+      }
+      Write-Host "##vso[task.setvariable variable=packageVersion]$version"
+
+- task: NuGetCommand@2
+  displayName: 'Pack NuGet Package'
+  inputs:
+    command: 'pack'
+    packagesToPack: '**/MeraStore.Shared.Common.Core.csproj'
+    arguments: '-Version $(packageVersion)'
+
+- task: NuGetCommand@2
+  displayName: 'Push NuGet Package'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'e3559741-9d6d-4c08-ae8e-74e97c90147b'
