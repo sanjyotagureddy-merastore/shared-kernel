@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeraStore.Shared.Common.Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeraStore.Shared.Common.Logging.Tests", "tests\MeraStore.Shared.Common.Logging.Tests\MeraStore.Shared.Common.Logging.Tests.csproj", "{01E30C8D-BD37-413C-B341-DE6F489566E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MeraStore.Shared.Common.Http", "src\MeraStore.Shared.Common.Http\MeraStore.Shared.Common.Http.csproj", "{D477DE88-C238-4FC7-8157-662461B07ED5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MeraStore.Shared.Common.Http", "src\MeraStore.Shared.Common.Http\MeraStore.Shared.Common.Http.csproj", "{D477DE88-C238-4FC7-8157-662461B07ED5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

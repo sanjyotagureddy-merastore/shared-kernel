@@ -4,6 +4,10 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>Sanjyot Agureddy</Authors>
+    <PackageIcon>mera-store.png</PackageIcon>
+    <RepositoryUrl>https://github.com/sanjyotagureddy-merastore/shared-kernel</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,5 +19,16 @@
 
   <ItemGroup>
     <Folder Include="Enums\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\docs\mera-store.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>
