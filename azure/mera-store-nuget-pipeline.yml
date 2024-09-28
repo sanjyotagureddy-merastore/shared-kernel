@@ -25,6 +25,7 @@ parameters:
       - Minor
       - Build
       - Pre-Release
+      
     # Note: Should only be used once for the initial versioning.
 
 variables:
