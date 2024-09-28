@@ -17,13 +17,15 @@ parameters:
   - name: versionType
     displayName: 'Version Type'
     type: string
-    default: 'Build'
+    default: 'None'
     values:
+      - None  
+      - New
       - Major
       - Minor
       - Build
       - Pre-Release
-      - New  
+      
     # Note: Should only be used once for the initial versioning.
 
 variables:
@@ -65,6 +67,7 @@ jobs:
 - job: CreateNugetPackage
   displayName: Create Nuget Package
   dependsOn: BuildAndTest
+  condition: ne('${{ parameters.versionType }}', 'None')
   variables:
     packageVersion: '' # Placeholder for the calculated version
   steps:

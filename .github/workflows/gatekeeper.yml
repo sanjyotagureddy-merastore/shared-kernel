@@ -1,0 +1,33 @@
+name: Build GateKeeper
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+  check-jira:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Check for JIRA ticket in PR title or body
+        id: check_jira
+        run: |
+          PR_TITLE=$(jq -r '.pull_request.title' "$GITHUB_EVENT_PATH")
+          PR_BODY=$(jq -r '.pull_request.body' "$GITHUB_EVENT_PATH")
+          JIRA_REGEX="[A-Z]+-[0-9]+"
+          if [[ "$PR_TITLE" =~ $JIRA_REGEX ]] || [[ "$PR_BODY" =~ $JIRA_REGEX ]]; then
+            echo "JIRA ticket found in PR title or body."
+          else
+            echo "No JIRA ticket found in PR title or body."
+            echo "::error::No JIRA ticket found in PR title or body. Please include a JIRA ticket number in the format ABCD-XX."
+            exit 1
+          fi
+
+      - name: Post comment if JIRA ticket is missing
+        if: failure()
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "🚨 PR title or description must contain a JIRA ticket number in the format ABCD-XX. Example: JRIA-45, MSEC-101, CONQ-4521."
+

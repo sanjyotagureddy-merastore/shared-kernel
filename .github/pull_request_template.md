@@ -11,13 +11,14 @@ Fixes # (issue)
 - [ ] Enhancement (improvement to an existing feature)
 - [ ] Refactor (non-breaking change which refactors functionality)
 - [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] This change requires a documentation update
+- [ ] Infrastructure change (modifications related to the build or deployment environment)
+- [ ] Documentation update (changes to project documentation)
 
 ## Commit Message Checklist
 
-- [ ] Commit messages follow the [git message nomenclature](https://github.com/sanjyotagureddy/dotnet-ecommerce/blob/master/GitCommit_Nomanclature.md) (e.g., `MAJOR:`, `MINOR:`, `feat:`, `fix:`, etc.)
-- [ ] Commit messages accurately describe the changes made
-- [ ] Commit messages are properly formatted (no special characters that violate the conventions)
+- [ ] Commit messages accurately describe the changes made, providing enough context for others to understand the purpose.
+- [ ] Commit messages are properly formatted, adhering to the established conventions (no special characters that violate the conventions).
+- [ ] Each commit is a single logical change (if applicable).
 
 # Checklist:
 
