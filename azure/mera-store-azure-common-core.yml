@@ -1,0 +1,174 @@
+trigger: none
+
+pool:
+  vmImage: ubuntu-latest
+
+parameters:
+  - name: project
+    displayName: 'Project Name'
+    type: string
+    default: 'MeraStore.Shared.Common.Core'
+    values:
+      - MeraStore.Shared.Common.Core
+      - MeraStore.Shared.Common.Http
+      - MeraStore.Shared.Common.Logging
+      - MeraStore.Shared.Common.WebApi
+
+  - name: versionType
+    displayName: 'Version Type'
+    type: string
+    default: 'None'
+    values:
+      - None  
+      - New
+      - Major
+      - Minor
+      - Build
+      - Pre-Release
+      
+    # Note: Should only be used once for the initial versioning.
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+jobs:
+- job: BuildAndTest
+  displayName: Build And Test
+  variables:
+    packageVersion: '' # Placeholder for the calculated version
+  steps:
+    - task: DotNetCoreCLI@2
+      displayName: DotNet Restore
+      inputs:
+        command: 'restore'
+        projects: '**/${{ parameters.project }}.csproj'
+        feedsToUse: 'select'
+        vstsFeed: 'a6250525-b5da-4019-aa04-02881f57d776/b19de555-ba0a-43af-ae8a-1ed454f9a049'
+      condition: succeeded()
+
+    - task: DotNetCoreCLI@2
+      displayName: DotNet Build
+      inputs:
+        command: 'build'
+        projects: '**/${{ parameters.project }}.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+      condition: succeeded()
+
+    - task: DotNetCoreCLI@2
+      displayName: DotNet Test
+      inputs:
+        command: 'test'
+        projects: '**/${{ parameters.project }}.Tests.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+      condition: succeeded()
+
+- job: CreateNugetPackage
+  displayName: Create Nuget Package
+  dependsOn: BuildAndTest
+  condition: ne('${{ parameters.versionType }}', 'None')
+  variables:
+    packageVersion: '' # Placeholder for the calculated version
+  steps:
+    - script: |
+        #!/bin/bash
+
+        echo "Starting version calculation..."
+
+        # Get version type from parameters
+        versionType="${{ parameters.versionType }}"
+        projectName="${{ parameters.project }}"
+        
+        echo "Version type selected: $versionType"
+        echo "Project selected: $projectName"
+
+        if [[ "$versionType" != "New" ]]; then
+            # Fetch the latest version from NuGet feed
+            nugetSource="https://pkgs.dev.azure.com/sanjyotagureddy/merastore/_packaging/mera-store/nuget/v3/index.json"
+            packageName="MeraStore.Shared.Common.Core"
+
+            echo "Fetching the latest version for package: $packageName from $nugetSource"
+            
+            # Get the latest version using NuGet API
+            latestVersion=$(curl -s "$nugetSource" | jq -r '.data[] | select(.id=="'"$packageName"'") | .version' | sort -V | tail -n 1)
+
+            # Default to 1.0.0 if no latest version is found
+            if [[ -z "$latestVersion" ]]; then
+                latestVersion="1.0.0"
+                echo "No latest version found. Defaulting to $latestVersion"
+            else
+                echo "Latest version found: $latestVersion"
+            fi
+
+            # Split the version into parts
+            IFS='.' read -r majorVersion minorVersion buildNumber <<< "$latestVersion"
+            echo "Current version parts - Major: $majorVersion, Minor: $minorVersion, Build: $buildNumber"
+
+            preReleaseTag=""
+            # Get current timestamp
+            timestamp=$(date +%Y%m%d%H%M%S)
+
+            # Determine version based on selected version type
+            case "$versionType" in
+                Major)
+                    ((majorVersion++))
+                    minorVersion=0
+                    buildNumber=0
+                    echo "Incrementing major version to $majorVersion, resetting minor and build to 0"
+                    ;;
+                Minor)
+                    ((minorVersion++))
+                    buildNumber=0
+                    echo "Incrementing minor version to $minorVersion, resetting build to 0"
+                    ;;
+                Build)
+                    ((buildNumber++))
+                    echo "Incrementing build version to $buildNumber"
+                    ;;
+                Pre-Release)
+                    ((buildNumber++))
+                    preReleaseTag="-beta-$timestamp"
+                    echo "Incrementing build version to $buildNumber and setting pre-release tag to $preReleaseTag"
+                    ;;
+            esac
+        else
+            # For 'New' version type
+            majorVersion=1
+            minorVersion=0
+            buildNumber=0
+            preReleaseTag=""
+            echo "Creating new version: $majorVersion.$minorVersion.$buildNumber"
+        fi
+
+        # Construct the version string
+        version="$majorVersion.$minorVersion.$buildNumber$preReleaseTag"
+        echo "Final calculated version: $version"
+        
+        # Set the calculated version as a pipeline variable
+        echo "##vso[task.setvariable variable=packageVersion]$version"
+        echo "Version calculation completed."
+        
+        # Set the calculated version as a pipeline name
+        echo "##vso[build.updatebuildnumber]$projectName-$version"
+      displayName: 'Calculate Version Number'
+    - task: DotNetCoreCLI@2
+      displayName: DotNet Pack
+      inputs:
+        command: 'pack'
+        packagesToPack: '**/${{ parameters.project }}.csproj'
+        arguments: '--configuration $(buildConfiguration) /p:PackageVersion=$(packageVersion)'
+    - task: DotNetCoreCLI@2
+      displayName: DotNet Push
+      inputs:
+        command: 'push'
+        packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+        nuGetFeedType: 'internal'
+        publishVstsFeed: 'a6250525-b5da-4019-aa04-02881f57d776/b19de555-ba0a-43af-ae8a-1ed454f9a049'
+    
+    - task: PublishBuildArtifacts@1
+      displayName: Publish Artifacts
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        TargetPath: '\\${{ parameters.project }}\$(Build.DefinitionName)\$(Build.BuildNumber)'
+        publishLocation: 'Container'
