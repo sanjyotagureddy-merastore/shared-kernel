@@ -16,13 +16,22 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
+        
+    - name: Configure NuGet
+      run: |
+        echo "Adding NuGet source"
+        dotnet nuget add source --username GitHub --password ${{ secrets.NUGET_AUTH_TOKEN }} --store-password-in-clear-text --name mera-store https://pkgs.dev.azure.com/sanjyotagureddy/merastore/_packaging/mera-store/nuget/v3/index.json
+        
     - name: Restore dependencies
       run: dotnet restore
+
     - name: Build
       run: dotnet build --no-restore
+      
     - name: Test
       run: dotnet test --no-build --verbosity normal
