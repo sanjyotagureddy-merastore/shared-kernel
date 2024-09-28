@@ -21,6 +21,7 @@
     <None Include="..\..\docs\mera-store.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="..\..\README.md">
       <Pack>True</Pack>
