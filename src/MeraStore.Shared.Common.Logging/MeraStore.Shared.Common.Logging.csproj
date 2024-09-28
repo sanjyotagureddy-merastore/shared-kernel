@@ -4,9 +4,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Authors>Sanjyot Agureddy</Authors>
+    <PackageIcon>mera-store.png</PackageIcon>
+    <RepositoryUrl>https://github.com/sanjyotagureddy-merastore/shared-kernel</RepositoryUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MeraStore.Shared.Common.Core" Version="1.0.0" />
     <PackageReference Include="NEST" Version="7.17.5" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
     <PackageReference Include="Serilog.Enrichers.AspNetCore" Version="1.0.0" />
@@ -22,6 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MeraStore.Shared.Common.Core\MeraStore.Shared.Common.Core.csproj" />
+    <None Include="..\..\docs\mera-store.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 </Project>
