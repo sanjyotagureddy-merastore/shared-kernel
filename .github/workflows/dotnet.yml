@@ -1,6 +1,3 @@
-# This workflow will build a .NET project
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
-
 name: .NET
 
 on:
@@ -22,10 +19,10 @@ jobs:
       with:
         dotnet-version: 8.0.x
         
-    - name: Configure mera-store NuGet Feed
+    - name: Configure NuGet
       run: |
-        echo "Adding NuGet source"
-        dotnet nuget add source --username GitHub --password ${{ secrets.NUGET_AUTH_TOKEN }} --store-password-in-clear-text --name mera-store https://pkgs.dev.azure.com/sanjyotagureddy/merastore/_packaging/merastore/nuget/v3/index.json
+        echo "Adding Azure NuGet feed as a source"
+        dotnet nuget add source --username "AzureDevOps" --password "${{ secrets.AZURE_NUGET_AUTH_TOKEN }}" --name "mera-store" "https://pkgs.dev.azure.com/sanjyotagureddy/merastore/_packaging/merastore/nuget/v3/index.json"
         
     - name: Restore dependencies
       run: dotnet restore
