@@ -2,7 +2,7 @@ name: Build GateKeeper
 
 on:
   pull_request:
-    types: [opened, edited, reopened]
+    types: [opened, edited, reopened, synchronize]
 
 jobs:
   check-jira:
