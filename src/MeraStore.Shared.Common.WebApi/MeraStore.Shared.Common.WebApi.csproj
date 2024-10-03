@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <Authors>Sanjyot Agureddy</Authors>
     <PackageIcon>mera-store.png</PackageIcon>
     <RepositoryUrl>https://github.com/sanjyotagureddy-merastore/shared-kernel</RepositoryUrl>
@@ -11,9 +11,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.10.0" />
-    <PackageReference Include="MeraStore.Shared.Common.Logging" Version="1.0.0" />
+    <PackageReference Include="MeraStore.Service.Logging.SDK" Version="1.0.0" />
+    <PackageReference Include="MeraStore.Shared.Common.Logging" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.8.1" />
   </ItemGroup>
 
   <ItemGroup>

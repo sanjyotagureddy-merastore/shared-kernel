@@ -5,13 +5,13 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace MeraStore.Shared.Common.WebApi.Filters;
 
-public class CustomHeadersFilter : IOperationFilter
+public class HeadersFilter : IOperationFilter
 {
   public void Apply(OpenApiOperation operation, OperationFilterContext context)
   {
-    // Check if the action method has the CustomHeaderAttribute
-    var customHeaderAttributes = context.MethodInfo.GetCustomAttributes(typeof(CustomHeaderAttribute), true)
-      .Cast<CustomHeaderAttribute>();
+    // Check if the action method has the HeaderAttribute
+    var customHeaderAttributes = context.MethodInfo.GetCustomAttributes(typeof(HeaderAttribute), true)
+      .Cast<HeaderAttribute>();
 
     operation.Parameters ??= new List<OpenApiParameter>();
 

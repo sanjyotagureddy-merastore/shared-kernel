@@ -1,6 +1,4 @@
 ﻿using MeraStore.Shared.Common.Core;
-using Microsoft.AspNetCore.Http;
-using Serilog.Context;
 
 namespace MeraStore.Shared.Common.WebApi.Middlewares;
 
