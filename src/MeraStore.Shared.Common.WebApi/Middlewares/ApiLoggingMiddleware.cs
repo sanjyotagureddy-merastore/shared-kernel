@@ -1,19 +1,26 @@
-﻿using System.Diagnostics;
-using System.Text;
+﻿using MeraStore.Service.Logging.SDK;
+using MeraStore.Service.Logging.SDK.Models;
 using MeraStore.Shared.Common.Logging.Masking;
 using MeraStore.Shared.Common.Logging.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Nest;
-using Serilog;
-using Serilog.Context;
 
 namespace MeraStore.Shared.Common.WebApi.Middlewares;
 
-public class RequestResponseLoggingMiddleware(RequestDelegate next, IElasticClient elasticClient, IConfiguration configuration, MaskingService maskingService)
+public class ApiLoggingMiddleware(RequestDelegate next, IElasticClient elasticClient, IConfiguration configuration, MaskingService maskingService, List<string> routesToSkip = null)
 {
+  private readonly IElasticClient _elasticClient = elasticClient;
+  private readonly LoggingApiClient _client = LoggingApiClientFactory.GetClient();
+  private readonly List<string> _routesToSkip = routesToSkip ?? [];
+
   public async Task Invoke(HttpContext context)
   {
+    if (_routesToSkip.Any(route => context.Request.Path.StartsWithSegments(route, StringComparison.OrdinalIgnoreCase)))
+    {
+      await next(context);
+      return;
+    }
+
     var stopwatch = Stopwatch.StartNew();
 
     var payload = new Payload
@@ -28,7 +35,7 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, IElasticClie
     var requestBody = await CaptureRequestBody(context);
     var maskedRequestBody = maskingService.MaskSensitiveData(requestBody);
     payload.Request = maskedRequestBody;
-    payload.RequestBodyUrl = await IndexDocumentAndGetUrl(maskedRequestBody, "request");
+    payload.RequestBodyUrl = string.IsNullOrWhiteSpace(maskedRequestBody) ? null : await IndexDocumentAndGetUrl(maskedRequestBody, "request", context);
 
     // Capture the original response stream
     var originalBodyStream = context.Response.Body;
@@ -49,7 +56,7 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, IElasticClie
       var responseBodyContent = await CaptureResponseBody(context);
       var maskedResponseBody = maskingService.MaskSensitiveData(responseBodyContent);
       payload.Response = maskedResponseBody;
-      payload.ResponseBodyUrl = await IndexDocumentAndGetUrl(maskedResponseBody, "response");
+      payload.ResponseBodyUrl = await IndexDocumentAndGetUrl(maskedResponseBody, "response", context);
 
       // Log the payload
       LogPayload(payload);
@@ -79,26 +86,27 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, IElasticClie
     return text;
   }
 
-  private async Task<string> IndexDocumentAndGetUrl(string content, string documentType)
+  private async Task<string> IndexDocumentAndGetUrl(string content, string documentType, HttpContext context)
   {
-    var document = new
+    var baseurl = configuration["LoggingService:Uri"];
+    var documentUrl = string.Empty;
+    switch (documentType)
     {
-      Timestamp = DateTime.UtcNow,
-      Type = documentType,
-      Content = content
-    };
-
-    var response = await elasticClient.IndexAsync(document, idx => idx.Index("request-response-logs"));
-
-    if (!response.IsValid)
-    {
-      throw new Exception($"Failed to index document in Elasticsearch: {response.DebugInformation}");
+      case "request":
+        var requestLog = await _client.CreateRequestLogAsync(new BaseDto()
+        {
+          Content = content,
+          Endpoint = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}"
+        });
+        return $"{baseurl}{string.Format(ApiEndpoints.RequestLogs.Get, requestLog)}"; // Adjust the URL as needed
+      case "response":
+        var responseLog = await _client.CreateResponseLogAsync(new BaseDto()
+        {
+          Content = content,
+          Endpoint = $"{context.Request.Scheme}://{context.Request.Host}{context.Request.Path}"
+        });
+        return $"{baseurl}{string.Format(ApiEndpoints.ResponseLogs.Get, responseLog)}"; // Adjust the URL as needed
     }
-
-    var elasticUrl = configuration["ElasticConfiguration:Uri"];
-    // Construct the URL to view only the 'content' field of the document
-    var documentUrl = $"{elasticUrl}/request-response-logs/_doc/{response.Id}?_source=content"; // Adjust the URL as needed
-
     return documentUrl;
   }
 
