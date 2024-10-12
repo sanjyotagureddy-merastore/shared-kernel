@@ -8,6 +8,8 @@
     <PackageIcon>mera-store.png</PackageIcon>
     <RepositoryUrl>https://github.com/sanjyotagureddy-merastore/shared-kernel</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>This library likely contains the core functionalities and utilities that are shared across different parts of the MeraStore project. It might include common data structures, base classes, interfaces, and extensions.</Description>
+    <Title>MeraStore.Shared.Common.Core</Title>
   </PropertyGroup>
 
   <ItemGroup>

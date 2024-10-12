@@ -8,6 +8,8 @@
     <PackageIcon>mera-store.png</PackageIcon>
     <RepositoryUrl>https://github.com/sanjyotagureddy-merastore/shared-kernel</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Title>MeraStore.Shared.Common.Http</Title>
+    <Description>This library probably includes shared HTTP-related functionalities, such as HTTP clients, request and response handlers, and utilities for making HTTP calls. It may also contain classes and methods to streamline and standardize HTTP communication across the project.</Description>
   </PropertyGroup>
 
   <ItemGroup>
