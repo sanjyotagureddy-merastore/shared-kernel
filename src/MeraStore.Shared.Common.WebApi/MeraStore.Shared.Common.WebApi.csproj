@@ -8,6 +8,8 @@
     <PackageIcon>mera-store.png</PackageIcon>
     <RepositoryUrl>https://github.com/sanjyotagureddy-merastore/shared-kernel</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Title>MeraStore.Shared.Common.WebApi</Title>
+    <Description>This library probably contains shared functionalities for building and managing Web APIs. It may include  action filters, middleware, and utilities to facilitate the creation and maintenance of Web APIs in the MeraStore project.</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.10.0" />

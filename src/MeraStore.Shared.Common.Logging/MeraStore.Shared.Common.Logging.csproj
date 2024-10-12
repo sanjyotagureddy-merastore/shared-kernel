@@ -8,6 +8,8 @@
     <PackageIcon>mera-store.png</PackageIcon>
     <RepositoryUrl>https://github.com/sanjyotagureddy-merastore/shared-kernel</RepositoryUrl>
     <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Description>This library likely provides logging functionalities that are used across the MeraStore project. It might include loggers, log formatters, and integrations with different logging frameworks or services to ensure consistent and efficient logging practices.</Description>
+    <Title>MeraStore.Shared.Common.Logging</Title>
   </PropertyGroup>
 
   <ItemGroup>
